@@ -1,6 +1,7 @@
-import { formatPokemonId, getPokemonSprite } from '@helpers'
+import { dateToSeconds, formatPokemonId, getPokemonSprite } from '@helpers'
 import { fetchPokemonGraph } from '@services'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import Head from 'next/head'
 
 const getQuery = (id: number) => `
 query MyQuery {
@@ -46,8 +47,14 @@ query MyQuery {
 export const getServerSideProps: GetServerSideProps<
   PokemonExtendData,
   { id: string }
-> = async (context) => {
-  const id = parseInt(context.params.id)
+> = async ({ params, res }) => {
+  // headers
+  res.setHeader(
+    'Cache-Control',
+    `s-maxage=${dateToSeconds(0, 0, 0, 1)}, stale-while-revalidate`
+  )
+  // data
+  const id = parseInt(params.id)
   const data = await fetchPokemonGraph(getQuery(id))
   const pokemonData: PokemonExtendData = {
     id,
@@ -82,25 +89,33 @@ export default function Pokemon(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
   return (
-    <section className="text-gray-400 bg-gray-900 body-font overflow-hidden">
-      <div className="container px-5 py-24 mx-auto">
-        <div className="lg:w-4/5 mx-auto flex flex-wrap">
-          <img
-            alt={props.name}
-            className="lg:w-1/4 w-full lg:h-auto h-64 object-cover object-center rounded"
-            src={props.sprite}
-          />
-          <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-            <h2 className="text-sm title-font text-gray-500 tracking-widest">
-              #{formatPokemonId(props.id)}
-            </h2>
-            <h1 className="text-white text-3xl title-font font-medium mb-1 capitalize">
-              {props.name}
-            </h1>
-            <div className="flex mb-4">{/* POKEMON TYPES AS CHIPS */}</div>
+    <>
+      <Head>
+        <title>
+          {props.name[0].toUpperCase() + props.name.slice(1)} - #
+          {formatPokemonId(props.id)}
+        </title>
+      </Head>
+      <section className="text-gray-400 bg-gray-900 body-font overflow-hidden">
+        <div className="container px-5 py-24 mx-auto">
+          <div className="lg:w-4/5 mx-auto flex flex-wrap">
+            <img
+              alt={props.name}
+              className="lg:w-1/4 w-full lg:h-auto h-64 object-cover object-center rounded"
+              src={props.sprite}
+            />
+            <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+              <h2 className="text-sm title-font text-gray-500 tracking-widest">
+                #{formatPokemonId(props.id)}
+              </h2>
+              <h1 className="text-white text-3xl title-font font-medium mb-1 capitalize">
+                {props.name}
+              </h1>
+              <div className="flex mb-4">{/* POKEMON TYPES AS CHIPS */}</div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   )
 }

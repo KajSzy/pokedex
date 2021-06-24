@@ -1,5 +1,5 @@
 import { Loader, PokemonCard } from '@components'
-import { dateToMilliseconds, getPokemonSprite } from '@helpers'
+import { dateToSeconds, getPokemonSprite } from '@helpers'
 import { fetchPokemonGraph } from '@services'
 import { InferGetServerSidePropsType } from 'next'
 import { useEffect, useState } from 'react'
@@ -28,7 +28,7 @@ export const getStaticProps = async () => {
         sprite: getPokemonSprite(pokemon.id),
       })),
     },
-    revalidate: dateToMilliseconds(0, 0, 1),
+    revalidate: dateToSeconds(0, 0, 1),
   }
 }
 
@@ -70,13 +70,13 @@ export default function Index({
 
   return (
     <section className="text-gray-400 bg-gray-900 body-font">
-      <div className="container px-5 py-24 mx-auto">
-        <div className="flex flex-col text-center w-full mb-20">
-          <h1 className="text-2xl font-medium title-font mb-4 text-white tracking-widest">
+      <div className="container px-5 py-12 mx-auto">
+        <div className="flex flex-col text-center w-full">
+          <h1 className="text-2xl font-medium title-font mb-1 text-white tracking-widest">
             Pokedex
           </h1>
         </div>
-        <div className="flex flex-wrap m-4">
+        <div className="flex flex-wrap m-4 justify-center">
           {items.map((pokemon) => (
             <PokemonCard {...pokemon} key={pokemon.id} />
           ))}

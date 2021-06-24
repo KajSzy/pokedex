@@ -4,10 +4,8 @@ import React from 'react'
 class MyDocument extends Document {
   render() {
     return (
-      <Html>
-        <Head>
-          <title>Pokedex by KajSzy</title>
-        </Head>
+      <Html data-theme="dark">
+        <Head></Head>
         <body className="text-gray-400 bg-gray-900 body-font">
           <Main />
           <NextScript />
