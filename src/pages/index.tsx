@@ -1,5 +1,5 @@
 import { Loader, PokemonCard } from '@components'
-import { getPokemonSprite } from '@helpers'
+import { dateToMilliseconds, getPokemonSprite } from '@helpers'
 import { fetchPokemonGraph } from '@services'
 import { InferGetServerSidePropsType } from 'next'
 import { useEffect, useState } from 'react'
@@ -28,7 +28,7 @@ export const getStaticProps = async () => {
         sprite: getPokemonSprite(pokemon.id),
       })),
     },
-    revalidate: 6000,
+    revalidate: dateToMilliseconds(0, 0, 1),
   }
 }
 
