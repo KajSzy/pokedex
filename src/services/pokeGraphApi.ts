@@ -1,8 +1,6 @@
-import fetch from './fetch'
+export const POKEMON_GRAPH_API_URI = 'https://beta.pokeapi.co/graphql/v1beta'
 
-const POKEMON_GRAPH_API_URI = 'https://beta.pokeapi.co/graphql/v1beta'
-
-const POKEMON_GRAPH_API_HEADERS = {
+export const POKEMON_GRAPH_API_HEADERS = {
   'Content-Type': 'application/json',
   'X-Method-Used': 'graphiql',
 }

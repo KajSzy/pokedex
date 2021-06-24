@@ -6,7 +6,7 @@ type PokemonCardProps = PokemonBasicData
 
 const PokemonCard: React.FC<PokemonCardProps> = ({ id, name, sprite }) => (
   <Link href={`/pokemon/${id}`}>
-    <div className="p-4 lg:w-1/3">
+    <div className="p-4 lg:w-1/3 hover:shadow-2xl hover:bg-gray-800 transition duration-150 cursor-pointer">
       <div className="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
         <img
           alt={name}
