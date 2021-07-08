@@ -7,6 +7,9 @@ export const dateToSeconds = (
   seconds = 0,
   ms = 0
 ) => {
+  if (process.env.NODE_ENV === 'development') {
+    return 1
+  }
   let result = ms / 1000
   if (seconds) {
     result += seconds
