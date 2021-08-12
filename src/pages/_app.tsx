@@ -1,3 +1,4 @@
+import { initNavigation } from '@noriginmedia/react-spatial-navigation'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -24,6 +25,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', handleRouteChangeComplete)
     }
   }, [])
+
+  initNavigation({
+    debug: process.env.NODE_ENV === 'development',
+    // throttle: 1000,
+    // throttleKeypresses: true,
+  })
 
   return (
     <>
